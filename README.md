@@ -33,6 +33,7 @@
 
 ## Docker developmental stage  
 `cd evomining3  `  
-`docker run -i -t -v $(pwd)/data:/home -v $(pwd)/input:/home/fasta evomarc /bin/bash`  
+`docker build -t evomarc .`  
+`docker run -i -t -v $(pwd)/data:/home -v $(pwd)/inputs:/home/fasta evomarc /bin/bash`  
 
 
