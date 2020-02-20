@@ -30,3 +30,9 @@
   * If changes to ai_compute.pyx, execute after delete *.c and *.so files
 * `python ai_wrap.py > ai_all.tsv`
 * `python generate_networks.py`
+
+## Docker developmental stage  
+`cd evomining3  `  
+`docker run -i -t -v $(pwd)/data:/home -v $(pwd)/input:/home/fasta evomarc /bin/bash`  
+
+
