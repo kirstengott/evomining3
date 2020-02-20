@@ -1,10 +1,10 @@
 # EvoMining3
 
 ## Calculate ANI
-* `python calculate_ani.py <focal_genome_fasta> <genomes_directory>`
+* `python calculate_ani.py <focal_genome.fasta> <genomes_directory>`
 
 ## Define subset based on ANI and alignment len
-* fj_met_expansions.R
+* `python identify_ani_groups.py <ANI_file.tsv> <focal_genome.fasta>`
 * `perl subset.pl`
 
 ## Define ortho groups
