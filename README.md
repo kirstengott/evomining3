@@ -1,7 +1,7 @@
 # EvoMining3
 
 ## Calculate ANI
-* `perl calculate_ani.pl <focal_genome_fasta> <genomes_directory>`
+* `python calculate_ani.py <focal_genome_fasta> <genomes_directory>`
 
 ## Define subset based on ANI and alignment len
 * fj_met_expansions.R
