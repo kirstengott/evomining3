@@ -9,7 +9,7 @@
 
 ## Define ortho groups
 * `python src/pyparanoid_pipeline.py`
-* `python create_ortho_tall.py <pyparanoid_output_dir> <focal_genome.fasta>`
+* `python create_ortho_tall.py <focal_genome.fasta>`
 
 ## antiSMASH
 * `perl src/as500_pipe.pl pan_flavo/gdb/*.fasta`

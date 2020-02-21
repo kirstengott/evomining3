@@ -2,12 +2,13 @@
 
 import sys, os
 
-## Usage: python create_ortho_tall.py <pyparanoid_dir> <focal_genome.fasta>
+## Usage: python create_ortho_tall.py <focal_genome.fasta>
 
 ## Define inputs
-homolog_faa = sys.argv[1]+'/homolog.faa'
-homolog_mat = sys.argv[1]+'/homolog_matrix.txt'
-focal_prefix = os.path.splitext(os.path.basename(sys.argv[2]))[0]
+pyp_dir = 'pyp/pyparanoid'
+homolog_faa = pyp_dir+'/homolog.faa'
+homolog_mat = pyp_dir+'/homolog_matrix.txt'
+focal_prefix = os.path.splitext(os.path.basename(sys.argv[1]))[0]
 
 ## Generate the ortholog group list for the focal genome
 with open('group_list.tsv', 'w') as gfh:
