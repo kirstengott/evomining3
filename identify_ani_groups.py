@@ -29,6 +29,7 @@ aln_cut = aln_frac * focal_len
 ani = pd.read_csv(ani_file, delimiter="\t")
 ani = ani[ani['ANI'] > 0]
 
+## Plot the histogram
 hist_plot = sb.distplot(ani['ANI'], bins=40)
 png = hist_plot.get_figure()
 png.savefig("ani_histogram.png")

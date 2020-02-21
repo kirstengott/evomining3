@@ -5,7 +5,7 @@
 
 ## Define subset based on ANI and alignment len
 * `python identify_ani_groups.py <ANI_file.tsv> <focal_genome.fasta>`
-* `perl subset.pl`
+* `python split_ani_groups.py ANI.tsv <ANI_file.tsv> <ANI_threshold_1> <ANI_threshold_2>....<ANI_threshold_n>`
 
 ## Define ortho groups
 * `perl pyparanoid_pipe.pl`
