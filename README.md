@@ -8,7 +8,7 @@
 * `python src/split_ani_groups.py ANI.tsv <ANI_file.tsv> <ANI_threshold_1> <ANI_threshold_2>....<ANI_threshold_n>`
 
 ## Define ortho groups
-* `perl src/pyparanoid_pipe.pl`
+* `python src/pyparanoid_pipeline.py`
 * `perl src/get_group_list.pl > group_list.tsv`
 * `perl src/create_ortho_tall.pl`
 
