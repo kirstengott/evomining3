@@ -32,8 +32,13 @@
 * `python generate_networks.py`
 
 ## Docker developmental stage  
-`cd evomining3  `  
 `docker build -t evomarc .`  
+`cd evomining3  `  
+inputs directory contains the genomes in fasta format  
 `docker run -i -t -v $(pwd)/data:/home -v $(pwd)/inputs:/home/fasta evomarc /bin/bash`  
+inside de docker we run succesfully ani_fj.pl  
+`# ani_fj.pl bacillus_stats_cut.tsv`  
+produces an output temporary at home inside docker (data outside docker)  
+``
 
 
