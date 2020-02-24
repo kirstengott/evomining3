@@ -17,7 +17,8 @@
 * `python src/parse_antismash.py <pyparanoid_pep_folder> <antismash_gbk_1> <antismash_gbk_2>....<antismash_gbk_n>`
 
 ## KOFAM functional annotation
-* `perl src/kofam_pipe.pl pan_flavo/gdb/pep/89329.pep.fa`
+* `python src/kofam_annotation.py <ko_list> <prokaryote.hal> <focal_genome_pep.faa>`
+  * Note: ko_list and prokaryote.hal are part of kofamscan and must be downloaded from `ftp://ftp.genome.jp/pub/tools/kofamscan/` with the corresponding HMMs
 
 ## Go in again and identify expansions
 * src/fj_met_expansions.R
