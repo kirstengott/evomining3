@@ -129,6 +129,7 @@ with open('expansions_list.tsv', 'w') as efh:
 for grp in ingroups:
     hist_plot = sb.distplot(hist[grp], bins=np.arange(-20,20.5,.5), kde=False)
     png = hist_plot.get_figure()
+    png.axes[0].set_yscale('log')
     png.savefig(grp+'.hist.png')
     plt.close()
 
