@@ -24,7 +24,7 @@ with open('group_list.tsv', 'w') as gfh:
 header = []
 mibig = {}
 with open('ortho_tall.tsv', 'w') as ofh:
-    gfh.write("\t".join(['ortho_group', 'strain_id', 'count'])+"\n")
+    ofh.write("\t".join(['ortho_group', 'strain_id', 'n_ortho'])+"\n")
     with open(homolog_mat, 'r') as mfh:
         for ln in mfh.read().splitlines():
             if len(header) == 0:
@@ -33,17 +33,18 @@ with open('ortho_tall.tsv', 'w') as ofh:
                 seen = {}
                 group, counts = ln.split("\t", 1)
                 for i, count in enumerate(counts.split("\t")):
-                    if header[i].startswith('BGC') and float(count) > 0:
-                        if group in mibig:
-                            mibig[group] += 1
-                        else:
-                            mibig[group] = 1
+                    if header[i].startswith('BGC'):
+                        if float(count) > 0:
+                            if group in mibig:
+                                mibig[group] += 1
+                            else:
+                                mibig[group] = 1
                     else:
                         if header[i] not in seen:
                             ofh.write("\t".join([group, header[i], str(float(count)/2)])+"\n")
                             seen[header[i]] = 1
 
 with open('mibig_groups.tsv', 'w') as mgfh:
-    mgfh.write("\t".join(['ortho_group', 'count'])+"\n")
+    mgfh.write("\t".join(['ortho_group', 'n_ortho'])+"\n")
     for group in mibig:
         mgfh.write("\t".join([group, str(mibig[group])])+"\n")

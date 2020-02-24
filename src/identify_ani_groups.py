@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 matplotlib.style.use('ggplot')
 import seaborn as sb
 
-## Usage: python identify_ani_groups.py <ANIfile>
+## Usage: python identify_ani_groups.py
 
 ani_file = 'ANI.tsv'
 
@@ -36,3 +36,4 @@ ani = ani[ani['QueryAligned'] > aln_cut]
 hist_plot = sb.distplot(ani['ANI'], bins=40)
 png = hist_plot.get_figure()
 png.savefig("ani_histogram.png")
+plt.close()
