@@ -12,9 +12,9 @@
 * `python create_ortho_tall.py <focal_genome.fasta>`
 
 ## antiSMASH
-* `perl src/as500_pipe.pl pan_flavo/gdb/*.fasta`
-* `python src/parse_as500.py > as500.tsv`
-* `python src/inclust.py > gene_inclust.tsv`
+* `perl src/as500_pipe.pl <genome1.fasta> <genome_2.fasta>....<genome_n.fasta>`
+  * Note: you can run any antiSMASH version yourself, this is just provided as a helper script
+* `python src/parse_antismash.py <pyparanoid_pep_folder> <antismash_gbk_1> <antismash_gbk_2>....<antismash_gbk_n>`
 
 ## KOFAM functional annotation
 * `perl src/kofam_pipe.pl pan_flavo/gdb/pep/89329.pep.fa`
