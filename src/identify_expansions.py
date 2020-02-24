@@ -65,8 +65,7 @@ for index, row in func.iterrows():
         is_met[row['ortho_group']] = 1
     if row['DescB'] in vitaa_b:
         is_vitaa[row['ortho_group']] = 1
-        row['is_vitaa'] = 'Yes'
-    if row['ortho_group'] in mb['ortho_group']:
+    if row['ortho_group'] in mb.ortho_group.tolist():
         is_mibig[row['ortho_group']] = 1
 
 ## List of the group cutoffs
