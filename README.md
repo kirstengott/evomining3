@@ -8,7 +8,7 @@
 * `python src/split_ani_groups.py ANI.tsv <ANI_file.tsv> <ANI_threshold_1> <ANI_threshold_2>....<ANI_threshold_n>`
 
 ## Define ortho groups
-* `python src/pyparanoid_pipeline.py`
+* `python src/pyparanoid_pipeline.py <genome_dir>`
 * `python create_ortho_tall.py <focal_genome.fasta>`
 
 ## antiSMASH

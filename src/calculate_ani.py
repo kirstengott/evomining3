@@ -46,3 +46,5 @@ with open('ANI.tsv', 'w') as afh:
                 col = ln.split("\t")
                 ani, maps, tf = col[2], col[3], col[4]
         afh.write("\t".join([query_prefix, focal_prefix, str(ani), str(maps), str(tf), str(alilen)])+"\n")
+        for tmp in ['ani_tmp.txt', 'ani_tmp.txt.visual']:
+            os.system(' '.join(['rm', tmp]))

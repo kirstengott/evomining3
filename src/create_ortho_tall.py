@@ -24,6 +24,7 @@ with open('group_list.tsv', 'w') as gfh:
 header = []
 mibig = {}
 with open('ortho_tall.tsv', 'w') as ofh:
+    gfh.write("\t".join(['ortho_group', 'strain_id', 'count'])+"\n")
     with open(homolog_mat, 'r') as mfh:
         for ln in mfh.read().splitlines():
             if len(header) == 0:

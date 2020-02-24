@@ -3,12 +3,12 @@
 import os, re, sys, glob
 from Bio import SeqIO
 
-## Usage: python parse_antismash.py <pyparanoid_pep_folder> <antismash_final_gbk_1> <antismash_final_gbk_2>....<antismash_final_gbk_n>
+## Usage: python parse_antismash.py <antismash_final_gbk_1> <antismash_final_gbk_2>....<antismash_final_gbk_n>
 
 ## Read in antiSMASH BGC genome coordinates
 as5 = {}
 with open('antismash.tsv', 'w') as afh:
-    for gbk in sys.argv[2:]:
+    for gbk in sys.argv[1:]:
         if not re.search( r"region\d+", gbk ): ## We only want the genome-wide gbk, so ignore orthers
             genome = os.path.split(gbk)[0].split('/')[-1]
             for seq in SeqIO.parse(gbk, "genbank"):
@@ -24,7 +24,7 @@ with open('antismash.tsv', 'w') as afh:
 ## Determine which genes are within antiSMASH-defined BGCs
 with open('gene_in_bgc.tsv', 'w') as gfh:
     gfh.write("\t".join(['genome', 'contig', 'gene_id', 'start', 'end', 'inclust'])+"\n")
-    for faa in glob.glob(sys.argv[1]+"/*.pep.fa"):
+    for faa in glob.glob("pyp/gdb/pep/*.pep.fa"):
         genome = os.path.split(faa)[-1].split('.')[0]
         i = 0
         for seq in SeqIO.parse(faa, "fasta"):
