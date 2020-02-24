@@ -4,8 +4,8 @@
 * `python src/calculate_ani.py <focal_genome.fasta> <genomes_directory>`
 
 ## Define subset based on ANI and alignment len
-* `python src/identify_ani_groups.py <ANI_file.tsv> <focal_genome.fasta>`
-* `python src/split_ani_groups.py ANI.tsv <ANI_file.tsv> <ANI_threshold_1> <ANI_threshold_2>....<ANI_threshold_n>`
+* `python src/identify_ani_groups.py <focal_genome.fasta>`
+* `python src/split_ani_groups.py ANI.tsv <ANI_threshold_1> <ANI_threshold_2>....<ANI_threshold_n>`
 
 ## Define ortho groups
 * `python src/pyparanoid_pipeline.py <genome_dir>`
@@ -14,14 +14,14 @@
 ## antiSMASH
 * `perl src/as500_pipe.pl <genome1.fasta> <genome_2.fasta>....<genome_n.fasta>`
   * Note: you can run any antiSMASH version yourself, this is just provided as a helper script
-* `python src/parse_antismash.py <pyparanoid_pep_folder> <antismash_gbk_1> <antismash_gbk_2>....<antismash_gbk_n>`
+* `python src/parse_antismash.py <antismash_gbk_1> <antismash_gbk_2>....<antismash_gbk_n>`
 
 ## KOFAM functional annotation
 * `python src/kofam_annotation.py <ko_list> <prokaryote.hal> <focal_genome_pep.faa>`
   * Note: ko_list and prokaryote.hal are part of kofamscan and must be downloaded from `ftp://ftp.genome.jp/pub/tools/kofamscan/` with the corresponding HMMs
 
 ## Go in again and identify expansions
-* src/fj_met_expansions.R
+* `python src/identify_expansions.py <focal_genome.fasta>`
 
 ## Adjacency index calculations and network generation
 * `perl src/genenamemap.pl > genenamemap.tsv`
