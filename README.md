@@ -7,7 +7,10 @@ EvoMining3 is a joint collaboration between the University of Wisconsin-Madison 
 
 ## Usage
 * `python evomining3.py <focal_genome.fasta> <genomes_directory> <antismash_gbk_directory> <ko_list> <prokaryote.hal>`
-  * Note: ko_list and prokaryote.hal are part of kofamscan and must be downloaded from `ftp://ftp.genome.jp/pub/tools/kofamscan/` with the corresponding HMMs
+  * `focal_genome.fasta`: nucleotide fasta file of the genome of interest
+  * `genomes_directory`: folder of all genomes (yes, including the focal_genome) to be used as comparators
+  * `antismash_gbk_directory`: folder of antiSMASH 5 (or greater) genbank results. It is assumed that users will generate this before EvoMining. A helper script is included at `src/as500_pipe.pl` that will run antiSMASH5 from a docker on each positional argument. After antiSMASH is run (by whatever means the user finds most convienient) copy all resulting genbank files to a new directory `antismash_gbk_directory`. While EvoMining will only look at the whole genome genbanks (and not the ones for individual BGCs), it is fine to copy those into `antismash_gbk_directory` as EvoMining will ignore any "region" genbank.
+  * `ko_list` and `prokaryote.hal` are part of kofamscan and must be downloaded from `ftp://ftp.genome.jp/pub/tools/kofamscan/` with the corresponding HMMs
 
 ## Still in development...adjacency index calculations and network generation
 * `python src/cython_setup.py build_ext --inplace`
