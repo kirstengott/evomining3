@@ -7,6 +7,7 @@ matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 matplotlib.style.use('ggplot')
 import seaborn as sb
+import numpy as np
 
 ## Usage: python identify_ani_groups.py
 
@@ -32,8 +33,38 @@ ani = pd.read_csv(ani_file, delimiter="\t")
 ani = ani[ani['ANI'] > 0]
 ani = ani[ani['QueryAligned'] > aln_cut]
 
+## Identify adjacent zero values in the histogram
+## The average of these valleys is used to estimate group breakpoints
+## Bin width is set to 0.1 and all ANI are rounded to one decimal
+ani_hist = {}
+for a in ani.ANI.tolist():
+    onedec = round(a, 1)
+    if onedec in ani_hist:
+        ani_hist[onedec] += 1
+    else:
+        ani_hist[onedec] = 1
+breaks = []
+i = min(ani_hist.keys()) - 0.1
+zero_flag = False
+first_zero = i
+while i <= 100:
+    i = round(i,1)
+    if i in ani_hist:
+        if zero_flag:
+            last_zero = i - 0.1
+            breaks.append(round( (first_zero+last_zero) / 2, 2))
+            zero_flag = False
+    else:
+        if not zero_flag:
+            first_zero = i
+            zero_flag = True
+    i += 0.1
+print("Suggested break points to define ANI groups are:\t"+str(breaks))
+
 ## Plot the histogram
 hist_plot = sb.distplot(ani['ANI'], bins=40)
-png = hist_plot.get_figure()
-png.savefig("ani_histogram.png")
+pdf = hist_plot.get_figure()
+for b in breaks:
+    plt.axvline(x=b, linestyle='--', alpha=0.5, color='blue')
+pdf.savefig("ani_histogram.pdf")
 plt.close()
