@@ -10,7 +10,10 @@ import seaborn as sb
 import numpy as np
 from Bio import SeqIO
 
-## Usage: python define_ani_groups.py <focalgenome.fna> <genome_folder> <antismash_results_folder>
+## Usage: python define_ani_groups.py <focalgenome.fna> <genome_folder> <antismash_results_folder> <ko_list> <prokaryotes.hal>
+## Note: ko_list and prokaryotes.hal are part of kofamscan
+## They can be downloaded from ftp://ftp.genome.jp/pub/tools/kofamscan/
+## with the corresponding *hmms
 
 def is_fasta(genome):
     ## Check if file has a fasta file extension
