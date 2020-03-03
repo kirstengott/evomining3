@@ -26,11 +26,8 @@ This creates a new environment called `evomining3` with all dependencies install
   * `antismash_gbk_directory`: folder of antiSMASH 5 (or greater) genbank results. These are used to define BGC boundaries only, so for the purposes of EvoMining, running antiSMASH with the `--minimal` is sufficient (and will save you a lot of compute time). Of course, the user may have other analyses in mind, but any antiSMASH output, `--minimal` or not is fine. It is assumed that users will generate antiSMASH5 results before EvoMining for each genome in `genomes_directory`. A helper script is included at `src/as500_pipe.pl` that will run antiSMASH5 from a docker on each positional argument. After antiSMASH is run (by whatever means the user finds most convienient) copy all resulting genbank files to a new directory `antismash_gbk_directory`. While EvoMining will only look at the whole genome genbanks (and not the ones for individual BGCs), it is fine to copy those into `antismash_gbk_directory` as EvoMining will ignore any "region" genbank.
   * `ko_list` and `prokaryote.hal` are part of kofamscan and must be downloaded from `ftp://ftp.genome.jp/pub/tools/kofamscan/` with the corresponding HMMs
 
-## Still in development...adjacency index calculations and network generation
-* `python src/adjindex_cython_setup.py build_ext --inplace`
-  * Execute if first time
-  * If changes to ai_compute.pyx, execute after delete *.c and *.so files
-* `python src/evomining3_calculate_adjacency_index`
+## Using EvoMining3 to generate a gene neighborhood network to mine for bottlenecks and connected expansions (under development)
+* `python src/evomining3_calculate_adjacency_index.py`
 * `python src/generate_networks.py`
 
 ## Docker developmental stage  
