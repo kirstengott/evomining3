@@ -227,6 +227,7 @@ def parse_antismash(antismash_dir, antismash_loci, gene_in_bgc):
                             elif int(header[2]) >= as_start and int(header[2]) <= as5[genome][contig][as_start]:
                                 inclust = 'True'
                 gfh.write("\t".join([genome, contig, seq.id, header[1], header[2], inclust])+"\n")
+    return inclust
 
 def kofam_annotation(ko_list, hal_db, focal_strain, pyp_dir, kofam_out, kofam_parsed):
     ## Note: this is part of kofamscan and a *hal database must be downloaded from
@@ -344,6 +345,7 @@ def identify_expansions(focal_strain, data_dir, ani, kofam_parsed, ingroups_file
         pdf.axes[0].set_yscale('log')
         pdf.savefig(grp+'.hist.pdf')
         plt.close()
+    return i
 
 def make_gene_map(gene_map, pyp_dir):
     homolog_fasta = pyp_dir+'/pyparanoid/homolog.faa'
@@ -417,7 +419,7 @@ parse_pyparanoid_results(pyp_dir, focal_strain, ortholog_tall, ortholog_list, mi
 
 ## Parse antiSMASH results
 print("Parsing antiSMASH results...")
-parse_antismash(antismash_dir, antismash_loci, gene_in_bgc)
+inclust = parse_antismash(antismash_dir, antismash_loci, gene_in_bgc)
 
 ## Functional annotation
 if os.path.exists(kofam_parsed):
@@ -433,4 +435,3 @@ identify_expansions(focal_strain, data_dir, ani, kofam_parsed, ingroups_file, or
 ## Map genes
 print("Creating gene map...")
 make_gene_map(gene_map, pyp_dir)
-
