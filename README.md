@@ -13,7 +13,7 @@ EvoMining is an evolution based genome mining tool that performs computational a
 
 Dependencies are listed in `conda_environment.yml`. It is highly suggested for users to create their own conda environment using this file, e.g.:
 
-`conda create --name evomining3 --file conda_environment.yml`
+`conda env create --file conda_environment.yml --name evomining3`
 
 This creates a new environment called `evomining3` with all dependencies installed. This environment can now be accessed by:
 
