@@ -1,13 +1,42 @@
-#!/bin/env perl
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
+use Getopt::Long;
 use Bio::SeqIO;
 
-my $cmd = 'run_antismash500';
+## USAGE STATEMENT
+if (!defined($ARGV[0]) or $ARGV[0] eq '-help') {
+die ("
+Program: as5 helper
+
+Usage:    ./as500_pipe.pl [options] fasta_in_files
+
+Options:
+     -as5_exec            path to antismash5 docker executable
+     -taxon               {bacteria, fungi}
+     -genefindingtool     {glimmerhmm,prodigal,prodigal-m,none,error}
+     -threads             number of threads
+     -help                Print this usage statement
+
+");
+}
+
+my $taxon = 'bacteria';
+my $genefindingtool = 'prodigal';
 my $threads = 80;
+my $cmd = 'run_antismash500';
+
+GetOptions(
+    'as5_exec' => \$cmd,
+    'taxon' => \$taxon,
+    'genefindingtool' => \$genefindingtool,
+    'threads' => \$threads
+    );
+
+
 #my $args = '--genefinding-tool prodigal --cpus '.$threads.' --minimal'; ## Minimal
-my $args = '--genefinding-tool prodigal --cpus '.$threads.' --clusterhmmer --smcog-trees --cb-general --cb-subclusters --cb-knownclusters --asf --pfam2go --cb-nclusters 50'; ## Do it all
+my $args = '--taxon '.$taxon.' --genefinding-tool '.$genefindingtool.' --cpus '.$threads.' --clusterhmmer --smcog-trees --cb-general --cb-subclusters --cb-knownclusters --asf --pfam2go --cb-nclusters 50'; ## Do it all
 my $d = 'as500';
 mkdir $d unless(-d $d);
 my $tot = scalar(@ARGV);
