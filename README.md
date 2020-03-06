@@ -19,11 +19,21 @@ This creates a new environment called `evomining3` with all dependencies install
 
 `conda activate evomining3`
 
+
+
+
 ## Running EvoMining3 to predict metabolic expansion events
+
+### Prerequisite
+
+It is assumed that users will generate antiSMASH5 results before EvoMining for each genome of interest. A helper script is included at `src/as500_pipe.pl` that will run antiSMASH5 from a docker on each positional argument. These are used to define BGC boundaries only, so for the purposes of EvoMining, running antiSMASH with the `--minimal` is sufficient (and will save you a lot of compute time). Of course, the user may have other analyses in mind, but any antiSMASH output, `--minimal` or not is fine.
+
+### Script and directory structure
+
 * `python evomining3_identify_expansions.py <focal_genome.fasta> <genomes_directory> <antismash_gbk_directory> <ko_list> <prokaryote.hal>`
   * `focal_genome.fasta`: nucleotide fasta file of the genome of interest
   * `genomes_directory`: folder of all genomes (yes, including the focal_genome) to be used as comparators
-  * `antismash_gbk_directory`: folder of antiSMASH 5 (or greater) genbank results. These are used to define BGC boundaries only, so for the purposes of EvoMining, running antiSMASH with the `--minimal` is sufficient (and will save you a lot of compute time). Of course, the user may have other analyses in mind, but any antiSMASH output, `--minimal` or not is fine. It is assumed that users will generate antiSMASH5 results before EvoMining for each genome in `genomes_directory`. A helper script is included at `src/as500_pipe.pl` that will run antiSMASH5 from a docker on each positional argument. After antiSMASH is run (by whatever means the user finds most convienient) copy all resulting genbank files to a new directory `antismash_gbk_directory`. While EvoMining will only look at the whole genome genbanks (and not the ones for individual BGCs), it is fine to copy those into `antismash_gbk_directory` as EvoMining will ignore any "region" genbank.
+  * `antismash_gbk_directory`: folder of antiSMASH 5 (or greater) genbank results. After antiSMASH is run (by whatever means the user finds most convienient) copy all resulting genbank files to a new directory `antismash_gbk_directory`. While EvoMining will only look at the whole genome genbanks (and not the ones for individual BGCs), it is fine to copy those into `antismash_gbk_directory` as EvoMining will ignore any "region" genbank. 
   * `ko_list` and `prokaryote.hal` are part of kofamscan and must be downloaded from `ftp://ftp.genome.jp/pub/tools/kofamscan/` with the corresponding HMMs
 
 ## Using EvoMining3 to generate a gene neighborhood network to mine for bottlenecks and connected expansions (under development)
