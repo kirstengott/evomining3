@@ -31,9 +31,11 @@ This creates a new environment called `evomining3` with all dependencies install
 2. Download kofamscan databases with corresponding HMMs
 
 	`wget ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz`
+	
 	`gunzip ko_list.gz`
 
 	`wget ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz`
+	
 	`tar -xzvf profiles.tar.gz`
 
 
