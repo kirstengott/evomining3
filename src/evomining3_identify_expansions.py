@@ -363,8 +363,8 @@ if __name__ == '__main__':
         <focalgenome.fna>           nucleotide fasta file of the genome of interest
         <genome_folder>             folder of all genomes (yes, including the focal_genome) to be used as comparators
         <antismash_results_folder>  folder of antiSMASH 5 (or greater) genbank results.
-        <ko_list>                   downloaded from ftp://ftp.genome.jp/pub/tools/kofamscan/ with the corresponding HMMs
-        <prokaryotes.hal>           evomining3_identify_expansions\n''' % os.path.basename(sys.argv[0]))
+        <ko_list>                   downloaded from ftp://ftp.genome.jp/pub/db/kofam/
+        <prokaryotes.hal>           downloaded from ftp://ftp.genome.jp/pub/db/kofam/ with the corresponding HMMs\n''' % os.path.basename(sys.argv[0]))
         sys.exit(1)
     
     ## Parse command line paramaters
