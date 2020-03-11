@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python
 
 import sys, os, glob, re
 import pandas as pd
@@ -10,10 +10,6 @@ import seaborn as sb
 import numpy as np
 from Bio import SeqIO
 
-## Usage: python define_ani_groups.py <focalgenome.fna> <genome_folder> <antismash_results_folder> <ko_list> <prokaryotes.hal>
-## Note: ko_list and prokaryotes.hal are part of kofamscan
-## They can be downloaded from ftp://ftp.genome.jp/pub/tools/kofamscan/
-## with the corresponding *hmms
 
 def is_fasta(genome):
     ## Check if file has a fasta file extension
@@ -359,79 +355,91 @@ def make_gene_map(gene_map, pyp_dir):
                     contig_gene_num = re.sub(".+_(\d+)$", '\\1', gene_name)
                     gfh.write("\t".join([genome, gene_name, contig, contig_gene_num, ortho_group])+"\n")
 
-## Parse command line paramaters
-focal_genome, genome_dir, antismash_dir, ko_list, hal_db = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]
 
-## Set internal parameters
-threads = 60
-aln_frac = 0.25 ## Fraction of alignment cutoff: (minimum number of bp in alignment) / (bp in focal genome)
 
-## Check focal genome is correct file extension
-if not is_fasta(focal_genome):
-    raise Exception("focal_genome does not have proper extension (.fasta, .fna, or .fa)\n")
+if __name__ == '__main__':
+    if len(sys.argv[1:]) < 5:
+        sys.stderr.write('''Usage: python %s <focalgenome.fna> <genome_folder> <antismash_results_folder> <ko_list> <prokaryotes.hal>
+        <focalgenome.fna>           nucleotide fasta file of the genome of interest
+        <genome_folder>             folder of all genomes (yes, including the focal_genome) to be used as comparators
+        <antismash_results_folder>  folder of antiSMASH 5 (or greater) genbank results.
+        <ko_list>                   downloaded from ftp://ftp.genome.jp/pub/db/kofam/
+        <prokaryotes.hal>           downloaded from ftp://ftp.genome.jp/pub/db/kofam/ with the corresponding HMMs\n''' % os.path.basename(sys.argv[0]))
+        sys.exit(1)
+    
+    ## Parse command line paramaters
+    focal_genome, genome_dir, antismash_dir, ko_list, hal_db = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]
 
-## Get focal genome name and genomes list
-focal_strain = get_prefix(focal_genome)
-genomes = get_genomes(genome_dir)
-data_dir = os.path.realpath(__file__).replace('src/evomining3.py', 'data')
+    ## Set internal parameters
+    threads = 60
+    aln_frac = 0.25 ## Fraction of alignment cutoff: (minimum number of bp in alignment) / (bp in focal genome)
 
-## Define output files and folders
-ani_file = 'ANI.tsv'
-ani_pdf = 'ANI_histogram.pdf'
-ingroups_file = 'in_groups.tsv'
-pyp_dir = 'pyp'
-ortholog_tall = 'ortho.tsv'
-ortholog_list = 'ortho_group_list.tsv'
-mibig_groups = 'mibig_groups.tsv'
-antismash_loci = 'antismash.tsv'
-gene_in_bgc = 'gene_in_bgc.tsv'
-kofam_out = focal_strain+'.kofam.txt'
-kofam_parsed = focal_strain+'.kofam.parsed.tsv'
-exp_list = 'expansions_list.tsv'
-gene_map = 'gene_map.tsv'
+    ## Check focal genome is correct file extension
+    if not is_fasta(focal_genome):
+        raise Exception("focal_genome does not have proper extension (.fasta, .fna, or .fa)\n")
 
-## Calculate ANI
-if os.path.isfile(ani_file):
-    print("ANI already calculated and written to "+ani_file)
-else:
-    print("Calculating ANI against "+focal_strain+"...")
-    calculate_ani(focal_genome, focal_strain, genomes, ani_file, threads)
+    ## Get focal genome name and genomes list
+    focal_strain = get_prefix(focal_genome)
+    genomes = get_genomes(genome_dir)
+    data_dir = os.path.realpath(__file__).replace('src/evomining3.py', 'data')
 
-## Define ANI groups
-print("Calculating ANI frequency distribution...")
-breaks, ani = define_ani_groups(focal_genome, ani_file, ani_pdf, aln_frac)
-print("Breakpoints to define ANI groups are:\t"+str(breaks))
+    ## Define output files and folders
+    ani_file = 'ANI.tsv'
+    ani_pdf = 'ANI_histogram.pdf'
+    ingroups_file = 'in_groups.tsv'
+    pyp_dir = 'pyp'
+    ortholog_tall = 'ortho.tsv'
+    ortholog_list = 'ortho_group_list.tsv'
+    mibig_groups = 'mibig_groups.tsv'
+    antismash_loci = 'antismash.tsv'
+    gene_in_bgc = 'gene_in_bgc.tsv'
+    kofam_out = focal_strain+'.kofam.txt'
+    kofam_parsed = focal_strain+'.kofam.parsed.tsv'
+    exp_list = 'expansions_list.tsv'
+    gene_map = 'gene_map.tsv'
 
-## Split based on these group breakpoints
-print("Splitting into groups...")
-split_ani_groups(focal_strain, ani, breaks, ingroups_file)
+    ## Calculate ANI
+    if os.path.isfile(ani_file):
+        print("ANI already calculated and written to "+ani_file)
+    else:
+        print("Calculating ANI against "+focal_strain+"...")
+        calculate_ani(focal_genome, focal_strain, genomes, ani_file, threads)
 
-## Define orthologs
-if os.path.exists(pyp_dir):
-    print("Orthologs already calculated within directory "+pyp_dir)
-else:
-    print("Calling genes (prodigal) and calculating orthologs (pyparanoid)...")
-    run_pyparanoid_pipeline(pyp_dir, genomes, data_dir, threads)
+    ## Define ANI groups
+    print("Calculating ANI frequency distribution...")
+    breaks, ani = define_ani_groups(focal_genome, ani_file, ani_pdf, aln_frac)
+    print("Breakpoints to define ANI groups are:\t"+str(breaks))
 
-## Parse ortholog results
-print("Parsing ortholog results...")
-parse_pyparanoid_results(pyp_dir, focal_strain, ortholog_tall, ortholog_list, mibig_groups)
+    ## Split based on these group breakpoints
+    print("Splitting into groups...")
+    split_ani_groups(focal_strain, ani, breaks, ingroups_file)
 
-## Parse antiSMASH results
-print("Parsing antiSMASH results...")
-inclust = parse_antismash(antismash_dir, antismash_loci, gene_in_bgc)
+    ## Define orthologs
+    if os.path.exists(pyp_dir):
+        print("Orthologs already calculated within directory "+pyp_dir)
+    else:
+        print("Calling genes (prodigal) and calculating orthologs (pyparanoid)...")
+        run_pyparanoid_pipeline(pyp_dir, genomes, data_dir, threads)
 
-## Functional annotation
-if os.path.exists(kofam_parsed):
-    print("Functional annotation already completed and written to "+kofam_parsed)
-else:
-    print("Performing functional annotation (kofamscan)...")
-    kofam_annotation(ko_list, hal_db, focal_strain, pyp_dir, kofam_out, kofam_parsed)
+    ## Parse ortholog results
+    print("Parsing ortholog results...")
+    parse_pyparanoid_results(pyp_dir, focal_strain, ortholog_tall, ortholog_list, mibig_groups)
 
-## Identify expansions
-print("Identifying putative metabolic expansions...")
-identify_expansions(focal_strain, data_dir, ani, kofam_parsed, ingroups_file, ortholog_tall, ortholog_list, mibig_groups)
+    ## Parse antiSMASH results
+    print("Parsing antiSMASH results...")
+    inclust = parse_antismash(antismash_dir, antismash_loci, gene_in_bgc)
 
-## Map genes
-print("Creating gene map...")
-make_gene_map(gene_map, pyp_dir)
+    ## Functional annotation
+    if os.path.exists(kofam_parsed):
+        print("Functional annotation already completed and written to "+kofam_parsed)
+    else:
+        print("Performing functional annotation (kofamscan)...")
+        kofam_annotation(ko_list, hal_db, focal_strain, pyp_dir, kofam_out, kofam_parsed)
+
+    ## Identify expansions
+    print("Identifying putative metabolic expansions...")
+    identify_expansions(focal_strain, data_dir, ani, kofam_parsed, ingroups_file, ortholog_tall, ortholog_list, mibig_groups)
+
+    ## Map genes
+    print("Creating gene map...")
+    make_gene_map(gene_map, pyp_dir)
