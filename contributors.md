@@ -15,3 +15,4 @@ Please ensure that it is a valid Markdown table format (https://github.com/adam-
 | Marc G. Chevrette | Wisconsin Institute for Discovery, Dept. of Plant Pathology, University of Wisconsin-Madison | 0000-0002-7209-0717 |
 | Francisco Barona-Gómez | Evolution of Metabolic Diversity Laboratory, Unidad de Genómica Avanzada (Langebio), Cinvestav-IPN | 0000-0003-1492-9497 |
 | Nelly Selem-Mojica | Evolution of Metabolic Diversity Laboratory, Unidad de Genómica Avanzada (Langebio), Cinvestav-IPN | 0000-0003-1697-3862 |
+| Kirsten Gotting | Dept. of Genetics, University of Wisconsin-Madison |  |
