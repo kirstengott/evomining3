@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import sys, os, glob, re
 import pandas as pd
 import matplotlib
@@ -381,8 +379,9 @@ if __name__ == '__main__':
     ## Get focal genome name and genomes list
     focal_strain = get_prefix(focal_genome)
     genomes = get_genomes(genome_dir)
-    data_dir = os.path.realpath(__file__).replace('src/evomining3.py', 'data')
+    data_dir = os.path.realpath(__file__).replace('src/' + os.path.basename(__file__), 'data')
 
+    
     ## Define output files and folders
     ani_file = 'ANI.tsv'
     ani_pdf = 'ANI_histogram.pdf'
