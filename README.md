@@ -48,6 +48,11 @@ This creates a new environment called `evomining3` with all dependencies install
   * `ko_list`: part of kofamscan download
   * `prokaryote.hal`: part of kofamscan download
 
+### Output
+
+* `expansions_list.tsv`: a table with every orthogroup that is shared amongst the ANI cutoff groups defined in `in_groups.tsv` and whether they are a part of metabolism, what kind of metabolism, and whether the orthogroup is present in MIBiG. 
+
+
 ## Using EvoMining3 to generate a gene neighborhood network to mine for bottlenecks and connected expansions (under development)
 * `python src/evomining3_calculate_adjacency_index.py`
 * `python src/generate_networks.py`
