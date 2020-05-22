@@ -11,3 +11,6 @@ conda activate evomining3
 ## Install non-conda packages
 pip install pyparanoid==0.4.1
 pip install reportlab==3.5.34
+
+## Install orthofinder
+conda install orthofinder
