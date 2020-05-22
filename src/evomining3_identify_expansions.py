@@ -235,7 +235,7 @@ def run_pyparanoid_pipeline(pyp_dir, genomes, data_dir, threads, gff3 = False):
         if os.path.isfile(full_file_name):
             shutil.copy(full_file_name, pyp_dir+'/gdb/pep/')
     ## run orthofinder (the export may not be necessary for all computers, maybe turn that into an exception?
-    command = 'orthofinder -t {cpu} -os -M msa -f {pep}'.format(cpu = str(threads), pep = pyp_dir+'/gdb/pep/')
+    command = 'orthofinder -t {cpu}  -os -M msa -f {pep}'.format(cpu = str(threads), pep = pyp_dir+'/gdb/pep/')
     print('Running:', command)
     os.system(command)
 
@@ -358,9 +358,10 @@ def get_gff_dict(gff3, chr_dict = False):
                     stop = int(line[4]) 
                     strand = line[6]
                     if gff3:
-                        ## pulls out the parent mRNA ID of the cds 
+                        ## pulls out the parent mRNA ID of the cds
                         id_ind = [note.index(x) for x in note if 'Parent' in x][0]
-                        gene_id = re.sub("Parent=", "", note[parent_ind])
+                        #name = re.sub("Parent=", "", note[id_ind])
+                        gene_id = re.sub("Parent=", "", note[id_ind])
                     else:
                         ## need to make unique for gff3 from prodigal
                         ## pulls out the id of the cds
@@ -371,7 +372,7 @@ def get_gff_dict(gff3, chr_dict = False):
                     ## grabs the rest of information needed to pull out the CDS sequence from
                     ## the fasta file
                     if not chr_dict:
-                        if name not in gff_dict.keys():
+                        if gene_id not in gff_dict.keys():
                             gff_dict[gene_id] = [genome_id, chrom, start, stop, strand]
                         else:
                             gff_dict[gene_id].append([genome_id, chrom, start, stop, strand])
@@ -390,7 +391,7 @@ def get_gff_dict(gff3, chr_dict = False):
     return(gff_dict)
 
 
-def make_gene_map(gff_cds):
+def make_gene_map(gff_cds, gene_map):
     ## pulls CDS sequences out of eukaryotic genome gff3 file provided and outputs
     ## protein sequences to use in orthologue calling
     gene_orthos = {}
@@ -616,7 +617,7 @@ if __name__ == '__main__':
         <ko_list>                   downloaded from ftp://ftp.genome.jp/pub/db/kofam/
         <prokaryotes.hal>           downloaded from ftp://ftp.genome.jp/pub/db/kofam/ with the corresponding HMMs
         <threads>                   the number of threads for parallel computing
-        <-gff3>                     flag to tell evomining to look for annotated genes in directory "genomes_gff3" \n''' % os.path.basename(sys.argv[0]))
+        <-gff3>                     flag to tell evomining to look for user supplied annotated genes in directory "genomes_gff3" \n''' % os.path.basename(sys.argv[0]))
         sys.exit(1)
     
     ## Parse command line paramaters
