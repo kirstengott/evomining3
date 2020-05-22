@@ -234,8 +234,8 @@ def run_pyparanoid_pipeline(pyp_dir, genomes, data_dir, threads, gff3 = False):
         full_file_name = os.path.join(src_mibig, file_name)
         if os.path.isfile(full_file_name):
             shutil.copy(full_file_name, pyp_dir+'/gdb/pep/')
-    ## run orthofinder (the export may not be necessary for all computers, maybe turn that into an exception?
-    command = 'orthofinder -t {cpu}  -os -M msa -f {pep}'.format(cpu = str(threads), pep = pyp_dir+'/gdb/pep/')
+    ## run orthofinder 
+    command = 'orthofinder -t {cpu} -os -M msa -f {pep}'.format(cpu = str(threads), pep = pyp_dir+'/gdb/pep/')
     print('Running:', command)
     os.system(command)
 
@@ -257,7 +257,7 @@ def parse_orthogroups_tsv(pyp_dir, focal_strain = False):
         df_dict    = df_sub.set_index('Orthogroup').T.to_dict('list') ## make it a dictionary
     return(df_dict)
 
-def parse_pyparanoid_results(pyp_dir, focal_strain, ortholog_tall, ortholog_list, mibig_groups):
+def parse_orthofinder_results(pyp_dir, focal_strain, ortholog_tall, ortholog_list, mibig_groups):
 
     focal_strain = os.path.splitext(focal_strain)[0]
     ortho_finder_dir = pyp_dir+'/gdb/pep/'+'OrthoFinder'
@@ -303,7 +303,7 @@ def parse_pyparanoid_results(pyp_dir, focal_strain, ortholog_tall, ortholog_list
                             continue
                         outstring = "{}\t{}\t{}\n".format(orthogroup, genome, line_dict[genome])
                         ortholog_tall.write(outstring)
-                    if mibig_count != '0':
+                    if mibig_count != 0:
                         if mb_header == 0:
                             mb_header = 'ortho_group\tn_ortho\n'
                             mibig_groups.write(mb_header)
@@ -673,17 +673,18 @@ if __name__ == '__main__':
     ## Split based on these group breakpoints
     print("Splitting into groups...")
     split_ani_groups(focal_strain, ani, breaks, ingroups_file)
-        
-
-
-    
+            
     ## Parse ortholog results
-    if os.path.exists(ortholog_tall) and os.path.exists(ortholog_list) and os.path.exists(mibig_groups) and os.path.exists(pyp_dir+'/gdb/pep/OrthoFinder'):
+    if os.path.exists(ortholog_tall) and os.path.exists(ortholog_list) and os.path.exists(mibig_groups):
         print('Orthologs already calculated, see results files:', ortholog_tall, ortholog_list, mibig_groups)
+    elif os.path.exists(os.path.join('pyp', 'gdb', 'pep', 'OrthoFinder')):
+        print("Parsing ortholog results...")
+        parse_orthofinder_results(pyp_dir, focal_strain, ortholog_tall, ortholog_list, mibig_groups)
     else:
+        ## only call orthologues if we haven't done it yet
         run_pyparanoid_pipeline(pyp_dir, genomes, data_dir, threads, gff3 = gff3)
         print("Parsing ortholog results...")
-        parse_pyparanoid_results(pyp_dir, focal_strain, ortholog_tall, ortholog_list, mibig_groups)
+        parse_orthofinder_results(pyp_dir, focal_strain, ortholog_tall, ortholog_list, mibig_groups)
 
     if not os.path.exists(gene_map):
         ## Map genes
